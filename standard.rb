@@ -52,6 +52,8 @@ case testing_framework
       run "mkdir factories"
     end
     
+    plugin 'coulda', :git => "git://github.com/dancroak/coulda.git"
+    
   when 'rspec'
     gem "rspec", :lib => "spec"
     gem "rspec-rails", :lib => "spec/rails"
