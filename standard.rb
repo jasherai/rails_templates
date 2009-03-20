@@ -28,6 +28,7 @@ environment("config.action_controller.session = { :key => '_#{application_name}_
 ## Standard Plugins
 plugin 'message_block', :git => "git://github.com/railsgarden/message_block.git"
 plugin 'exception_notifier', :git => "git://github.com/rails/exception_notification.git"
+plugin 'jrails', :git => "git://github.com/aaronchi/jrails.git"
 
 ## Standard Gems
 gem 'mislav-will_paginate', :version => '~> 2.2.3', :lib => 'will_paginate', :source => 'http://gems.github.com'
@@ -139,7 +140,7 @@ file 'app/views/layouts/application.html.erb', <<-END
   
   <title>#{application_name}</title>
   
-  <%= stylesheet_link_tag 'message_block' %>
+  <%= stylesheet_link_tag 'application', 'message_block' %>
   <%= javascript_include_tag :defaults %>
   
   <%= yield :head %>
@@ -517,13 +518,14 @@ capify!
 file "config/deploy.rb", <<-END
 set :stages, %w(staging production)
 set :default_stage, 'staging'
+
 require 'capistrano/ext/multistage'
 
 set :application, "#{application_name}"
 set :domain, "#{application_domain}"
 
 set :scm, :git
-set :repository, "git@github.com:archercom/\#{application}.git"
+set :repository, "git@github.com:railsgarden/\#{application}.git"
 set :deploy_via, :remote_cache
 set :scm_verbose, true
 set :use_sudo, false
@@ -556,6 +558,13 @@ set :branch, "production"
 END
 
 run "cp config/environments/production.rb config/environments/staging.rb"
+
+
+### File Cleanup
+run "rm public/index.html"
+%w(controls dragdrop effects prototype).each do |file|
+  run "rm public/javascripts/#{file}.js"
+end
 
 
 ### Git Initialization
