@@ -165,6 +165,7 @@ END
 
 file 'public/stylesheets/application.css', <<-END
 /*** Browser Resets ***/
+
 html, body, ul, ol, li, dl, p, pre, dd, blockquote, 
 h1, h2, h3, h4, h5, h6, a, form, label, fieldset, address {
 	margin: 0;
@@ -174,14 +175,14 @@ h1, h2, h3, h4, h5, h6, a, form, label, fieldset, address {
 
 form { margin-bottom: 0; display: inline; }
 img { border: 0; }
-.clear { clear: both; }
 
 
 /*** Main Structural Elements ***/
+
 body {
 	font-family: Georgia, Verdana, Arial, Helvetica, sans-serif;
 	font-size: 100.01%;
-	background: #0065B4;
+	background: #660000;
 	padding: 0;
 	margin: 0;
 }
@@ -189,11 +190,10 @@ body {
 #wrapper {
 	font-size: 0.8em;
 	line-height: 1.4em;
-	width: 94%;
+	width: 80%;
 	margin: 10px auto 20px auto;
 	padding: 10px;
-	overflow: visible;
-	background: #004F96;
+	background: #990000;
 }
 
 #inner-wrapper {
@@ -202,43 +202,16 @@ body {
 	border: 1px solid #999999;
 }
 
-#header {
-  padding-bottom: 5px;
-  margin-bottom: 10px;
-}
-
-#header h1 {
-  float: left;
-  width: 50%;
-  border-bottom: 0;
-  margin-bottom: 0;
-  color: #333;
-  font-weight: bold;
-  font-size: 1.6em;
-}
-
-#header #login-status {
-  float: right;
-  width: 35%;
-  background-color: #BFBFBF;
-  padding: 0.3em;
-  border: 1px solid #3F3F3F;
-  color: #333;
-}
-
-#footer {
-  margin-top: 10px;
-  border-top: 1px solid #004F96;
-  padding-top: 5px;
-  font-size: 0.9em;
-  color: #666;
+#content {
+	margin: 8px;
 }
 
 
 /*** Text ***/
-a:link { color: #004F96; text-decoration: underline; }
-a:visited { color: #004F96; text-decoration: underline; }
-a:hover { color: #004F96; text-decoration: none; }
+
+a:link { color: #990000; text-decoration: underline; }
+a:visited { color: #990000; text-decoration: underline; }
+a:hover { color: #990000; text-decoration: none; }
 
 h1, h2, h3, h4, h5, h6 {
 	font-family: Georgia, Verdana, Arial, sans-serif;
@@ -252,9 +225,9 @@ h1, h2, h3, h4, h5, h6 {
 h1 {
 	font-size: 1.7em;
 	font-weight: normal;
-	color: #004F96;
+	color: #990000;
 	line-height: 1.1em;
-	border-bottom: 1px dashed #004F96;
+	border-bottom: 1px dashed #990000;
 	margin-bottom: 0.6em;
 }
 
@@ -310,6 +283,49 @@ cite {
   font-style: normal;
 }
 
+.microtext {
+	font-size: 0.8em;
+}
+
+.fieldinfo {
+	font-size: 0.8em;
+	padding-bottom: 0.3em;
+}
+
+sup {
+	position: relative;
+	bottom: 0.3em;
+	vertical-align: baseline;
+}
+
+sub {
+	position: relative;
+	bottom: -0.2em;
+	vertical-align: baseline;
+}
+
+hr {
+	clear: left;
+	background-color: #FFFFFF;
+	border: none;
+	border-bottom: 1px dashed #990000;
+	margin-bottom: 10px;
+	margin-top: 5px;
+}
+
+pre {
+
+}
+
+code {
+	font-family: "Courier New", Courier, monospace;        
+	font-size: 1em;
+	border: 1px dashed #CDCDCD;
+	background: #F2F2F2;
+	padding: 1em;
+	display: block;
+}
+
 ul, ol {
 	margin-bottom:1.5em;
 	padding-left:0;
@@ -343,6 +359,8 @@ ol li {
 	margin-bottom: 0.6em;
 }
 
+/*** Forms ***/
+
 fieldset {
   margin-bottom: 1em;
 }
@@ -374,6 +392,7 @@ table.data {
   width: 100%;
   border: 1px solid #333;
   margin-bottom: 0.5em;
+  border-collapse: collapse;
 }
 
 table.data thead tr {
