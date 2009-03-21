@@ -29,7 +29,6 @@ environment("config.action_controller.session = { :key => '_#{application_name}_
 plugin 'message_block', :git => "git://github.com/railsgarden/message_block.git"
 plugin 'exception_notifier', :git => "git://github.com/rails/exception_notification.git"
 plugin 'jrails', :git => "git://github.com/aaronchi/jrails.git"
-plugin 'javascript_named_routes', :git => "git://github.com/sentientholon/javascript_named_routes.git"
 
 ## Standard Gems
 gem 'mislav-will_paginate', :version => '~> 2.2.3', :lib => 'will_paginate', :source => 'http://gems.github.com'
