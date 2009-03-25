@@ -529,6 +529,13 @@ module ApplicationHelper
 end
 }
 
+file 'app/controllers/application_controller.rb', %q{
+class ApplicationController < ActionController::Base
+  protect_from_forgery
+  filter_parameter_logging :password
+end
+}
+
 
 
 ### Capistrano
