@@ -415,19 +415,6 @@ table.data tr.odd td {
 	border-bottom: 1px solid #cad6e6;
 }
 
-table.data tr.unpublished-changes td {
-  background: #FFC4C2;
-  font-style: italic;
-}
-
-table.data tr.subtotal {
-  background-color: #CCC;
-  font-weight: bold;
-}
-table.data tr.subtotal td {
-  border-top: 1px solid #333;
-  border-bottom: 1px solid #333;
-}
 
 
 /** Tabs **/
