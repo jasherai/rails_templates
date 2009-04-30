@@ -550,6 +550,29 @@ set :user, "\#{application}"
 set :shared_paths, %w(
   config/database.yml
 )
+
+namespace :deploy do
+  desc "Restart Passenger"
+  task :restart, :roles => :app do
+    run "touch #{current_path}/tmp/restart.txt"
+  end
+  
+  # ErrorDocument 503 /503.html
+  # RewriteEngine on
+  # RewriteCond %{DOCUMENT_ROOT}/../tmp/stop.txt -f
+  # RewriteCond %{DOCUMENT_ROOT}/%{REQUEST_FILENAME} !-f
+  # RewriteRule ^(.*)$ /$1 [R=503,L]
+  
+  desc "Stop Passenger"
+  task :stop, :roles => :app do
+    run "touch #{current_path}/tmp/stop.txt"
+  end
+
+  desc "Start (or un-stop) Passenger"
+  task :start, :roles => :app do
+    run "rm -f #{current_path}/tmp/stop.txt"
+  end
+end
 END
 
 file "config/deploy/staging.rb", <<-END
