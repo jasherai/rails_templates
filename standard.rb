@@ -27,8 +27,9 @@ environment("config.action_controller.session = { :key => '_#{application_name}_
 
 ## Standard Plugins
 plugin 'message_block', :git => "git://github.com/railsgarden/message_block.git"
-plugin 'exception_notifier', :git => "git://github.com/rails/exception_notification.git"
+plugin 'exception_notification', :git => "git://github.com/rails/exception_notification.git"
 plugin 'jrails', :git => "git://github.com/aaronchi/jrails.git"
+plugin 'seed-fu', :git => "git://github.com/mbleigh/seed-fu.git"
 
 ## Standard Gems
 gem 'mislav-will_paginate', :version => '~> 2.2.3', :lib => 'will_paginate', :source => 'http://gems.github.com'
@@ -520,6 +521,15 @@ file 'app/controllers/application_controller.rb', %q{
 class ApplicationController < ActionController::Base
   protect_from_forgery
   filter_parameter_logging :password
+  
+  rescue_from ActiveRecord::RecordNotFound, :with => :record_not_found
+  
+  
+  protected
+  
+  def record_not_found
+    render :file => File.join(RAILS_ROOT, 'public', '404.html'), :status => 404
+  end
 end
 }
 
