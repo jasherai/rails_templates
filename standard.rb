@@ -131,6 +131,11 @@ ExceptionNotifier.exception_recipients = %w(#{EXCEPTION_EMAIL})
 ExceptionNotifier.email_prefix = "[RAILS_EXCEPTION - #{application_name}] "
 END
 
+initializer 'field_errors.rb' <<-END
+ActionView::Base.field_error_proc = Proc.new do |html_tag, instance|
+  "<span class=\"field-with-errors\">#{html_tag}</span>"
+end
+END
 
 file 'app/views/layouts/application.html.erb', <<-END
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
