@@ -391,6 +391,10 @@ fieldset.grid label {
   min-width: 140px;
 }
 
+form .field-with-errors input, form .field-with-errors select, form .field-with-errors textarea {
+  border: 2px solid #990000
+}
+
 
 /*** Table Data ***/
 
