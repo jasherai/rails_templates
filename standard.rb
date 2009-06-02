@@ -570,6 +570,7 @@ set :shared_paths, %w(
   config/database.yml
 )
 
+# Deployment
 namespace :deploy do
   desc "Restart Passenger"
   task :restart, :roles => :app do
@@ -591,7 +592,66 @@ namespace :deploy do
   task :start, :roles => :app do
     run "rm -f #{current_path}/tmp/stop.txt"
   end
+  
+  task :symlink_shared do 
+    ["/config/database.yml", "/tmp/cache"].each do |path|
+      run "ln -nfs #{shared_path}#{path} #{release_path}#{path}"
+    end
+  end
+  
+  task :migrate_database, :roles => [:db] do
+    run "cd #{release_path} && rake db:migrate RAILS_ENV=#{rails_env}"
+  end
+  
+  after 'deploy:symlink', 'deploy:symlink_shared'
+  after 'deploy:symlink', 'deploy:migrate_database'
 end
+
+# Database & Asset Synchronization
+namespace :pull do
+  desc "Mirrors the remote shared public directory with your local copy, doesn't download symlinks"
+  task :shared_assets do
+    if shared_host
+      ['public/uploads/', 'public/images/web/'].each do |shared_assets|
+        run_locally("rsync --recursive --times --rsh=ssh --compress --human-readable --progress #{user}@#{shared_host}:#{shared_path}/#{shared_assets} #{shared_assets}")
+      end
+    else
+      puts "shared_host must be defined"
+    end
+  end
+  
+  desc "Dump remote production database into tmp/, rsync file to local machine, import into local development database"
+  task :database do
+    # First lets get the remote database config file so that we can read in the database settings
+    get("#{shared_path}/config/database.yml", "tmp/database.yml")
+    
+    # load the production settings within the database file
+    remote_settings = YAML::load_file("tmp/database.yml")[rails_env]
+    
+    # we also need the local settings so that we can import the fresh database properly
+    local_settings = YAML::load_file("config/database.yml")["development"]
+    
+    # dump the production database and store it in the current path's tmp directory. 
+    # I chose to use the same filename everytime so that it would just overwrite the same file rather than 
+    # creating a timestamped file.  If you want to use this to create backups then I would recommend putting 
+    # something like Time.now in the filename and not storing it in the tmp directory
+    run "mysqldump -u'#{remote_settings["username"]}' -p'#{remote_settings["password"]}' --opt -h'#{remote_settings["host"]}' '#{remote_settings["database"]}' > #{current_path}/tmp/production-#{remote_settings["database"]}-dump.sql"
+    
+    # run_locally is a method provided by capistrano to run commands on your local machine. Here we are just rsyncing the remote database dump with the local copy of the dump
+    run_locally("rsync --times --rsh=ssh --compress --human-readable --progress #{user}@#{shared_host}:#{current_path}/tmp/production-#{remote_settings["database"]}-dump.sql tmp/production-#{remote_settings["database"]}-dump.sql")
+    
+    # now that we have the upated production dump file we should use the local settings to import this db.  
+    run_locally("mysql -u#{local_settings["username"]} #{"-p#{local_settings["password"]}" if local_settings["password"]} #{local_settings["database"]} < tmp/production-#{remote_settings["database"]}-dump.sql")
+  end
+  
+  desc "Pulls down database and shared assets"
+  task :all do
+  end
+  
+  after 'pull:all', 'pull:database'
+  after 'pull:all', 'pull:shared_assets'
+end
+
 END
 
 file "config/deploy/staging.rb", <<-END
@@ -601,6 +661,7 @@ role :db, "stage.#{application_domain}", :primary => true
 
 set :rails_env, "staging"
 set :branch, "master"
+set :shared_host, "stage.#{application_domain}"
 END
 
 file "config/deploy/production.rb", <<-END
@@ -610,6 +671,7 @@ role :db, "#{application_domain}", :primary => true
 
 set :rails_env, "production"
 set :branch, "production"
+set :shared_host, "#{application_domain}"
 END
 
 run "cp config/environments/production.rb config/environments/staging.rb"
