@@ -612,7 +612,7 @@ namespace :pull do
   desc "Mirrors the remote shared public directory with your local copy, doesn't download symlinks"
   task :shared_assets do
     if shared_host
-      ['public/uploads/', 'public/images/web/'].each do |shared_assets|
+      [].each do |shared_assets|
         run_locally("rsync --recursive --times --rsh=ssh --compress --human-readable --progress #{user}@#{shared_host}:#{shared_path}/#{shared_assets} #{shared_assets}")
       end
     else
