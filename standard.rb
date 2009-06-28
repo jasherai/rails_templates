@@ -29,10 +29,10 @@ environment("config.action_controller.session = { :key => '_#{application_name}_
 plugin 'message_block', :git => "git://github.com/railsgarden/message_block.git"
 plugin 'exception_notification', :git => "git://github.com/rails/exception_notification.git"
 plugin 'jrails', :git => "git://github.com/aaronchi/jrails.git"
-plugin 'seed-fu', :git => "git://github.com/mbleigh/seed-fu.git"
 
 ## Standard Gems
 gem 'mislav-will_paginate', :version => '~> 2.2.3', :lib => 'will_paginate', :source => 'http://gems.github.com'
+gem 'mbleigh-seed-fu', :lib => 'seed-fu', :soure => 'http://gems.github.com'
 
 rake("gems:install", :sudo => true)
 
