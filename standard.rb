@@ -131,9 +131,9 @@ ExceptionNotifier.exception_recipients = %w(#{EXCEPTION_EMAIL})
 ExceptionNotifier.email_prefix = "[RAILS_EXCEPTION - #{application_name}] "
 END
 
-initializer 'field_errors.rb' <<-END
+initializer 'field_errors.rb', <<-END
 ActionView::Base.field_error_proc = Proc.new do |html_tag, instance|
-  "<span class=\"field-with-errors\">#{html_tag}</span>"
+  "<span class=\\"field-with-errors\\">\#{html_tag}</span>"
 end
 END
 
@@ -145,6 +145,14 @@ file 'app/views/layouts/application.html.erb', <<-END
   <meta name="author" content="CSDVRS" />
   
   <title>#{application_name}</title>
+  
+  <link rel="stylesheet" type="text/css" href="css/reset.css" media="screen" />
+	<link rel="stylesheet" type="text/css" href="css/text.css" media="screen" />
+	<link rel="stylesheet" type="text/css" href="css/grid.css" media="screen" />
+	<link rel="stylesheet" type="text/css" href="css/layout.css" media="screen" />
+	<link rel="stylesheet" type="text/css" href="css/nav.css" media="screen" />
+	<!--[if IE 6]><link rel="stylesheet" type="text/css" href="css/ie6.css" media="screen" /><![endif]-->
+	<!--[if IE 7]><link rel="stylesheet" type="text/css" href="css/ie.css" media="screen" /><![endif]-->
   
   <%= stylesheet_link_tag 'application', 'message_block' %>
   <%= javascript_include_tag :defaults %>
@@ -170,352 +178,7 @@ END
 
 
 file 'public/stylesheets/application.css', <<-END
-/*** Browser Resets ***/
-
-html, body, ul, ol, li, dl, p, pre, dd, blockquote, 
-h1, h2, h3, h4, h5, h6, a, form, label, fieldset, address {
-	margin: 0;
-	padding: 0;
-	border: 0;
-}
-
-form { margin-bottom: 0; display: inline; }
-img { border: 0; }
-
-
-/*** Main Structural Elements ***/
-
-body {
-	font-family: Georgia, Verdana, Arial, Helvetica, sans-serif;
-	font-size: 100.01%;
-	background: #660000;
-	padding: 0;
-	margin: 0;
-}
-
-#wrapper {
-	font-size: 0.8em;
-	line-height: 1.4em;
-	width: 80%;
-	margin: 10px auto 20px auto;
-	padding: 10px;
-	background: #990000;
-}
-
-#inner-wrapper {
-	background: #FFFFFF;
-	padding: 10px;
-	border: 1px solid #999999;
-}
-
-#content {
-	margin: 8px;
-}
-
-
-/*** Text ***/
-
-a:link { color: #990000; text-decoration: underline; }
-a:visited { color: #990000; text-decoration: underline; }
-a:hover { color: #990000; text-decoration: none; }
-
-h1, h2, h3, h4, h5, h6 {
-	font-family: Georgia, Verdana, Arial, sans-serif;
-	padding: 0;
-	margin-bottom: 0.8em;
-	font-weight: normal;
-	margin-top: 0px;
-	font-weight: normal;
-}
-
-h1 {
-	font-size: 1.7em;
-	font-weight: normal;
-	color: #990000;
-	line-height: 1.1em;
-	border-bottom: 1px dashed #990000;
-	margin-bottom: 0.6em;
-}
-
-h2 {
-	color: #330000;
-	font-size: 1.4em;
-	font-weight: normal;
-	margin-bottom: 0.6em;
-}
-h2 span {
-	font-size: 0.8em;
-	color: #666666;
-}
-h2 a:link { color: #000000; text-decoration: none; }
-h2 a:visited { color: #000000; text-decoration: none; }
-h2 a:hover { color: #000000; text-decoration: underline; }
-
-h3 {
-	color: #330000;
-	font-size: 1.1em;
-	font-weight: bold;
-	margin-bottom: 0.3em;
-}
-
-h4 {
-	color: #330000;
-	font-weight: bold;
-	margin-bottom: 0.3em;
-}
-
-p {
-	margin-bottom: 1.1em;
-}
-
-blockquote {
-	border: 1px dashed #CDCDCD;
-	background: #F2F2F2;
-	padding: 1em;
-	margin-bottom: 1.5em;
-}
-
-blockquote p {
-	margin-bottom: 0;
-}
-
-small {
-	font-size: 0.8em;
-}
-
-cite {
-  font-size: 0.9em;
-  color: #666666;
-  font-style: normal;
-}
-
-.microtext {
-	font-size: 0.8em;
-}
-
-.fieldinfo {
-	font-size: 0.8em;
-	padding-bottom: 0.3em;
-}
-
-sup {
-	position: relative;
-	bottom: 0.3em;
-	vertical-align: baseline;
-}
-
-sub {
-	position: relative;
-	bottom: -0.2em;
-	vertical-align: baseline;
-}
-
-hr {
-	clear: left;
-	background-color: #FFFFFF;
-	border: none;
-	border-bottom: 1px dashed #990000;
-	margin-bottom: 10px;
-	margin-top: 5px;
-}
-
-pre {
-
-}
-
-code {
-	font-family: "Courier New", Courier, monospace;        
-	font-size: 1em;
-	border: 1px dashed #CDCDCD;
-	background: #F2F2F2;
-	padding: 1em;
-	display: block;
-}
-
-ul, ol {
-	margin-bottom:1.5em;
-	padding-left:0;
-}
-
-ul {
-	list-style-type:none;
-	margin-left:0;
-}	
-
-ul li {
-	padding-left: 1em;
-	margin-bottom: 0.6em;
-	background-position: left;
-	background-repeat: no-repeat;
-	vertical-align: top;
-}
-
-ul.bulletless li {
-	padding-left: 0;
-	background: none;
-}
-
-ol {
-	list-style-type: decimal;
-	margin-left: 2em;
-}	
-
-ol li {
-	padding-left: 0;
-	margin-bottom: 0.6em;
-}
-
-/*** Forms ***/
-
-fieldset {
-  margin-bottom: 1em;
-}
-
-label {
-  font-weight: bold;
-}
-
-form.button-to div {
-  display: inline;
-}
-
-fieldset.grid p {
-  line-height: 1em;
-  padding: 0.2em;
-  margin: 0;
-}
-
-fieldset.grid label {
-  display: block;
-  float: left;
-  min-width: 140px;
-}
-
-form .field-with-errors input, form .field-with-errors select, form .field-with-errors textarea {
-  border: 2px solid #990000
-}
-
-
-/*** Table Data ***/
-
-table.data {
-  width: 100%;
-  border: 1px solid #333;
-  margin-bottom: 0.5em;
-  border-collapse: collapse;
-}
-
-table.data thead tr {
-	background: #333;
-	color: #dcdcdc;
-	font-weight: bold;
-}
-table.data thead tr td {
-  margin: 0;
-}
-
-table.data td {
-	vertical-align: top;
-	padding: 0.4em;
-}
-
-table.data tr.odd td {
-	background: #ebf1f9;
-	border-top: 1px solid #cad6e6;
-	border-bottom: 1px solid #cad6e6;
-}
-
-
-
-/** Tabs **/
-.tabset {
-	height: 26px; 
-	border-bottom: 2px solid #004F96; 
-	vertical-align: middle; 
-	margin-bottom: 14px; 
-	margin-top: 15px;
-	font-size: 1em;
-	font-weight: bold;
-}
-
-.tabset span {
-	display: block;
-	float: left;
-	padding: 4px 12px;
-}
-.tabset span a:link { text-decoration: none; color: #004F96; }
-.tabset span a:visited { text-decoration: none; color: #004F96; }
-.tabset span a:hover { text-decoration: underline; color: #004F96; }
-
-.tabset span.selected {
-	padding: 4px 12px; 
-	color: #FFFFFF;
-	background-color: #004F96;
-}
-.tabset span.selected a:link { color: #FFFFFF; }
-.tabset span.selected a:visited { color: #FFFFFF; }
-.tabset span.selected a:hover { color: #FFFFFF; }
-
-
-
-/** Pagination **/
-
-.pagination {
-  margin: 10px 0;
-}
-
-.pagination a, .pagination span {
-  padding: .2em .5em;
-  display: block;
-  float: left;
-  margin-right: 1px; 
-}
-
-.pagination span.disabled {
-  color: #999;
-  border: 1px solid #333; 
-}
-
-.pagination span.current {
-  font-weight: bold;
-  background: #0065B4;
-  color: white;
-  border: 1px solid #0065B4;
-}
-
-.pagination a {
-  text-decoration: none;
-  color: #0065B4;
-  border: 1px solid #0065B4;
-}
-.pagination a:hover, .pagination a:focus {
-  color: #0065B4;
-  border-color: #0065B4;
-}
-
-.pagination .page_info {
-
-}
-
-.pagination .page_info b {
-
-}
-
-.pagination:after {
-  content: ".";
-  display: block;
-  height: 0;
-  clear: both;
-  visibility: hidden;
-}
-
-* html .pagination {
-  height: 1%; 
-}
-
-*:first-child+html .pagination {
-  overflow: hidden; 
-}
+/*** Custom Styles ***/
 END
 
 file 'app/helpers/application_helper.rb', %q{
@@ -574,7 +237,7 @@ set :shared_paths, %w(
 namespace :deploy do
   desc "Restart Passenger"
   task :restart, :roles => :app do
-    run "touch #{current_path}/tmp/restart.txt"
+    run "touch \#{current_path}/tmp/restart.txt"
   end
   
   # ErrorDocument 503 /503.html
@@ -585,22 +248,22 @@ namespace :deploy do
   
   desc "Stop Passenger"
   task :stop, :roles => :app do
-    run "touch #{current_path}/tmp/stop.txt"
+    run "touch \#{current_path}/tmp/stop.txt"
   end
 
   desc "Start (or un-stop) Passenger"
   task :start, :roles => :app do
-    run "rm -f #{current_path}/tmp/stop.txt"
+    run "rm -f \#{current_path}/tmp/stop.txt"
   end
   
   task :symlink_shared do 
     ["/config/database.yml", "/tmp/cache"].each do |path|
-      run "ln -nfs #{shared_path}#{path} #{release_path}#{path}"
+      run "ln -nfs \#{shared_path}\#{path} \#{release_path}\#{path}"
     end
   end
   
   task :migrate_database, :roles => [:db] do
-    run "cd #{release_path} && rake db:migrate RAILS_ENV=#{rails_env}"
+    run "cd \#{release_path} && rake db:migrate RAILS_ENV=\#{rails_env}"
   end
   
   after 'deploy:symlink', 'deploy:symlink_shared'
@@ -613,7 +276,7 @@ namespace :pull do
   task :shared_assets do
     if shared_host
       [].each do |shared_assets|
-        run_locally("rsync --recursive --times --rsh=ssh --compress --human-readable --progress #{user}@#{shared_host}:#{shared_path}/#{shared_assets} #{shared_assets}")
+        run_locally("rsync --recursive --times --rsh=ssh --compress --human-readable --progress \#{user}@\#{shared_host}:\#{shared_path}/\#{shared_assets} \#{shared_assets}")
       end
     else
       puts "shared_host must be defined"
@@ -623,7 +286,7 @@ namespace :pull do
   desc "Dump remote production database into tmp/, rsync file to local machine, import into local development database"
   task :database do
     # First lets get the remote database config file so that we can read in the database settings
-    get("#{shared_path}/config/database.yml", "tmp/database.yml")
+    get("\#{shared_path}/config/database.yml", "tmp/database.yml")
     
     # load the production settings within the database file
     remote_settings = YAML::load_file("tmp/database.yml")[rails_env]
@@ -635,13 +298,13 @@ namespace :pull do
     # I chose to use the same filename everytime so that it would just overwrite the same file rather than 
     # creating a timestamped file.  If you want to use this to create backups then I would recommend putting 
     # something like Time.now in the filename and not storing it in the tmp directory
-    run "mysqldump -u'#{remote_settings["username"]}' -p'#{remote_settings["password"]}' --opt -h'#{remote_settings["host"]}' '#{remote_settings["database"]}' > #{current_path}/tmp/production-#{remote_settings["database"]}-dump.sql"
+    run "mysqldump -u'\#{remote_settings["username"]}' -p'\#{remote_settings["password"]}' --opt -h'\#{remote_settings["host"]}' '\#{remote_settings["database"]}' > \#{current_path}/tmp/production-\#{remote_settings["database"]}-dump.sql"
     
     # run_locally is a method provided by capistrano to run commands on your local machine. Here we are just rsyncing the remote database dump with the local copy of the dump
-    run_locally("rsync --times --rsh=ssh --compress --human-readable --progress #{user}@#{shared_host}:#{current_path}/tmp/production-#{remote_settings["database"]}-dump.sql tmp/production-#{remote_settings["database"]}-dump.sql")
+    run_locally("rsync --times --rsh=ssh --compress --human-readable --progress \#{user}@\#{shared_host}:\#{current_path}/tmp/production-\#{remote_settings["database"]}-dump.sql tmp/production-\#{remote_settings["database"]}-dump.sql")
     
     # now that we have the upated production dump file we should use the local settings to import this db.  
-    run_locally("mysql -u#{local_settings["username"]} #{"-p#{local_settings["password"]}" if local_settings["password"]} #{local_settings["database"]} < tmp/production-#{remote_settings["database"]}-dump.sql")
+    run_locally("mysql -u\#{local_settings["username"]} \#{"-p\#{local_settings["password"]}" if local_settings["password"]} \#{local_settings["database"]} < tmp/production-\#{remote_settings["database"]}-dump.sql")
   end
   
   desc "Pulls down database and shared assets"
@@ -714,6 +377,8 @@ if yes?("\n\nDo you want to push this to GitHub (yes, no) [no]? ")
 end
 
 
+puts "All Done!"
+puts "Please remember to copy stylesheets and images to your Rails application!"
 
 
 
